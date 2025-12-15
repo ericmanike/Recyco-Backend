@@ -1,13 +1,13 @@
 from sqlalchemy import JSON, Boolean, Column, Integer, String, ForeignKey, DateTime, UniqueConstraint, create_engine
 from sqlalchemy.orm import relationship, sessionmaker, declarative_base
 from datetime import datetime
-from config import DATABASE_URL
+from config import DATABASE_URL1
 
 
 
 Base = declarative_base()
 
-engine = create_engine(DATABASE_URL, echo=False)
+engine = create_engine(DATABASE_URL1, echo=False)
 
 sessionLocal = sessionmaker(bind=engine)
 
