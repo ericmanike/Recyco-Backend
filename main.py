@@ -24,7 +24,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+@app.get('/')
+async def root():
+    return {"message":"Welcome to  RecycleHub Backend!"}
 
 app.include_router(auth.router, tags=['Authentication'], prefix='/auth')
 app.include_router(upload.router, tags=['Upload'], prefix='/upload')
