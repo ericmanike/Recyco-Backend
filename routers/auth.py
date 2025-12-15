@@ -146,9 +146,11 @@ async  def login_acces_token(response: Response, form_data:OAuth2PasswordRequest
      response.set_cookie(key="token",
                           value=access_token, 
                           httponly=True,
-                          secure=False,
-                          samesite="lax")
-     return user
+                          secure=True,
+                          samesite="none",
+                          max_age=int(ACCESS_TOKEN_EXPIRE_MINUTES * 60))
+                          
+     return { "fullName": user.fullName, "email": user.email,  "role": user.role, "phone": user.phone, "userId": user.id, } 
     
 @router.get('/me', response_model=UserResponse)
 async def read_users_me(current_user: users = Depends(get_active_user)):
@@ -184,6 +186,26 @@ async def logout(response: Response):
     return {"message": "Successfully logged out"}
 
 
-@router.get("/check-cookie")
-async def check_cookie(token: str = Cookie(None)):
-    return {"token_exists": bool(token)}
+@router.put( 'update-profile', response_model=UserResponse)
+async def update_profile(updated_user: UserResponse,
+                         current_user: users = Depends(get_active_user),
+                         db: Session = Depends(get_db)):
+    user = db.query(users).filter(users.id == current_user.id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    
+    user.fullName = updated_user.fullName
+    user.phone = updated_user.phone
+    user.role = updated_user.role
+    user.distance = updated_user.distance
+    user.location = updated_user.location
+    user.about = updated_user.about
+    user.images_url = updated_user.images_url
+
+    db.commit()
+    db.refresh(user)
+    return {"fullName": user.fullName, "email": user.email,  "role":
+             user.role, "phone": user.phone, "userId": user.id,
+               "distance": user.distance, "location": user.location, 
+               "about": user.about, "images_url": user.images_url } 
+

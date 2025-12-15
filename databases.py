@@ -23,6 +23,10 @@ class users(Base):
     phone = Column(String)
     password = Column(String)
     is_admin = Column(Boolean, default=False)
+    distance = Column(Integer, nullable=True)  # optional field for distance
+    location = Column(String, nullable=True)
+    about = Column(String, nullable=True)
+    images_url = Column(JSON, nullable=True)  # optional, filled after upload
 
     # relationships
     sent_messages = relationship("Message", foreign_keys="Message.sender_id", back_populates="sender")

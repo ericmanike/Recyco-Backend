@@ -29,7 +29,7 @@ class UserResponse(BaseModel):
     location: Optional[str] = None
     about: Optional[str] = None
     images_url: Optional[List[str]] = []
-
+    
     class Config:
          from_attributes=True
          orm_mode = True
