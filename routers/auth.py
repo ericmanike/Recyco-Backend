@@ -161,10 +161,10 @@ async def request_reset_password(email:PasswordResetRequest,  db: Session = Depe
     user = get_user(email.email, db)
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-    
     reset_token = create_reset_token(email.email)
     reset_link = f"http://localhost:3000/resetPassword?token={reset_token}&email={email.email}"
-    await send_email(
+   
+    semail =  await send_email(
         email=EmailSchema(
             recipients=[email.email],
             subject="Password Reset Request",
@@ -172,7 +172,9 @@ async def request_reset_password(email:PasswordResetRequest,  db: Session = Depe
             subtype="html"
         )
     )
-    return {"reset_link": reset_link, "message": f"reset link sent to {email.email}."}
+    if semail['status']== "error":
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to send reset email")
+    return {"reset_link": reset_link, "message": f"reset link sent to {email.email}. response: {semail}"}
 
 
 @router.post('/reset-password')

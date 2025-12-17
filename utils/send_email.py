@@ -16,6 +16,7 @@ conf = ConnectionConfig(
     VALIDATE_CERTS=True
 )
 
+print("Email configuration loaded:", conf)
 
 class EmailSchema(BaseModel):
     recipients: List[EmailStr]
