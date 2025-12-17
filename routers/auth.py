@@ -172,6 +172,8 @@ async def request_reset_password(email:PasswordResetRequest,  db: Session = Depe
             subtype="html"
         )
     )
+
+    print ('status', semail['status'])
     if semail['status']== "error":
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to send reset email")
     return {"reset_link": reset_link, "message": f"reset link sent to {email.email}. response: {semail}"}
