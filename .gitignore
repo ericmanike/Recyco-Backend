@@ -1,0 +1,42 @@
+# R
+.Rhistory
+.RData
+.Rprofile
+.Renviron
+*.Rproj
+.Rproj.user/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+
+# Dependencies
+renv/library/
+packrat/lib/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (if used)
+node_modules/
+npm-debug.log
+
+# Python (if used)
+__pycache__/
+*.pyc
+venv/
+
+# Logs
+*.log
+
+# Build outputs
+dist/
+build/
