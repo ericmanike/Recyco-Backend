@@ -148,7 +148,9 @@ async  def login_acces_token(response: Response, form_data:OAuth2PasswordRequest
                           httponly=True,
                           secure=True,
                           samesite="none",
-                          max_age=int(ACCESS_TOKEN_EXPIRE_MINUTES * 60))
+                          max_age=int(ACCESS_TOKEN_EXPIRE_MINUTES * 60),
+                          path= '/',
+                          domain='None')
                           
      return { "fullName": user.fullName, "email": user.email,  "role": user.role, "phone": user.phone, "userId": user.id, } 
     
