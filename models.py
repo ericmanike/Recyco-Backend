@@ -114,7 +114,7 @@ class PasswordResetBody(BaseModel):
     token: str
     email: EmailStr
     new_password: str
-    confirm_password: str
+
 
 class ChatMessageCreate(BaseModel):
     receiver_id: int
