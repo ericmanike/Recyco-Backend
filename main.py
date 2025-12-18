@@ -8,9 +8,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 origins = [
-
-    "http://localhost:8000",
-    "http://localhost:3000",
+    
+     "https://recyco-fe-83wv.vercel.app",
+        "http://localhost:3000",
 ]
 
 

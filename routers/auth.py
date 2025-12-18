@@ -143,14 +143,7 @@ async  def login_acces_token(response: Response, form_data:OAuth2PasswordRequest
      
      access_token_expire =timedelta(minutes=int(ACCESS_TOKEN_EXPIRE_MINUTES))
      access_token = create_access_token(data={'sub':user.email, 'uid': user.id}, expire_timedelta=access_token_expire)
-     response.set_cookie(key="token",
-                          value=access_token, 
-                          httponly=True,
-                          secure=True,
-                          samesite="none",
-                          max_age=int(ACCESS_TOKEN_EXPIRE_MINUTES * 60))
-                          
-     return { "fullName": user.fullName, "email": user.email,  "role": user.role, "phone": user.phone, "userId": user.id, } 
+     return  {"access_token": access_token, "token_type": "bearer"}
     
 @router.get('/me', response_model=UserResponse)
 async def read_users_me(current_user: users = Depends(get_active_user)):
