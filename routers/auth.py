@@ -179,7 +179,10 @@ async def reset_user_password(body: PasswordResetBody, db:Session= Depends(get_d
 
 @router.post('/logout')
 async def logout(response: Response):
-    response.delete_cookie(key="token")
+    response.delete_cookie(key="token",
+                            secure=True,
+                            samesite="none",
+                            path='/')
     return {"message": "Successfully logged out"}
 
 
