@@ -10,7 +10,7 @@ from databases import users
 from databases import get_db,users
 from sqlalchemy.orm import Session
 from models import UserCreate,TokenData,Token, UserResponse, PasswordResetRequest, PasswordResetBody
-from utils.send_email import send_email
+from utils.resend_email import send_email
 from models import  EmailSchema
 from utils.resetPasswordbody import reset_password_body
 
@@ -164,21 +164,11 @@ async def request_reset_password(email:PasswordResetRequest,  db: Session = Depe
     reset_token = create_reset_token(email.email)
     reset_link = f"http://localhost:3000/resetPassword?token={reset_token}&email={email.email}"
    
-    semail =  await send_email(
-        email=EmailSchema(
-            recipients=[email.email],
-            subject="Password Reset Request",
-            body=reset_password_body(reset_link, user.fullName),
-            subtype="html"
-        )
-    )
+    email_body = reset_password_body(reset_link, user.fullName)  
+    res =  send_email(to_email=email.email, subject="Password Reset Request", html_body=email_body)
+    return res
 
-    print ('status', semail['status'])
-    if semail['status']== "error":
-        print('error message', semail['message'])
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to send reset email")
-    return {"reset_link": reset_link, "message": f"reset link sent to {email.email}. response: {semail}"}
-
+   
 
 @router.post('/reset-password')
 async def reset_user_password(body: PasswordResetBody, db:Session= Depends(get_db)):
