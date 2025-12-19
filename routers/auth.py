@@ -152,7 +152,7 @@ async  def login_acces_token(response: Response, form_data:OAuth2PasswordRequest
                           path= '/',
                           )
                           
-     return { "fullName": user.fullName, "email": user.email,  "role": user.role, "phone": user.phone, "userId": user.id, } 
+     return { "fullName": user.fullName, "email": user.email,  "role": user.role, "phone": user.phone, "userId": user.id,"token": access_token } 
     
 @router.get('/me', response_model=UserResponse)
 async def read_users_me(current_user: users = Depends(get_active_user)):
