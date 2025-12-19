@@ -150,6 +150,7 @@ async  def login_acces_token(response: Response, form_data:OAuth2PasswordRequest
                           samesite="none",
                           max_age=(int(ACCESS_TOKEN_EXPIRE_MINUTES)*60),
                           path= '/',
+                          domain=".recyco.me"
                           )
                           
      return { "fullName": user.fullName, "email": user.email,  "role": user.role, "phone": user.phone, "userId": user.id,"token": access_token } 
